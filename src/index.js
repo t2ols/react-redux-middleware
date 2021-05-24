@@ -4,10 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { applyMiddleware, createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './modules';
+
+import logger from 'redux-logger'
+import ReduxThunk from 'redux-thunk'
+import { composeWithDevTools } from 'redux-devtools-extension'; //chrom app stroe redux-devtools install
+
+
+const store = createStore(rootReducer,
+  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+);
+
+
 ReactDOM.render(
-  <React.StrictMode>
+
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
+
   document.getElementById('root')
 );
 
