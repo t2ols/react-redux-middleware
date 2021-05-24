@@ -12,6 +12,7 @@ import logger from 'redux-logger'
 import ReduxThunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'; //chrom app stroe redux-devtools install
 
+import { BrowserRouter } from 'react-router-dom';
 
 const store = createStore(rootReducer,
   composeWithDevTools(applyMiddleware(ReduxThunk, logger))
@@ -19,11 +20,11 @@ const store = createStore(rootReducer,
 
 
 ReactDOM.render(
-
-  <Provider store={store}>
-    <App />
-  </Provider>,
-
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

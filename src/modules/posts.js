@@ -1,5 +1,5 @@
 import * as postsAPI from '../api/posts';
-import {createPromiseThunk, handleAsyncActions } from '../lib/asyncUtils'
+import {reducerUtils, createPromiseThunk, handleAsyncActions } from '../lib/asyncUtils'
 
 /* 액션 타입 */
 
@@ -13,18 +13,24 @@ const GET_POST = 'GET_POST';
 const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 const GET_POST_ERROR = 'GET_POST_ERROR';
 
+// const initialState = {
+//     posts : {
+//         loading : false,
+//         data : null,
+//         error:null
+//     },
+//     post : {
+//         loading : false,
+//         data : null,
+//         error : null
+//     }
+// }
+
+// initialState 쪽도 반복되는 코드를 initial() 함수를 사용해서 리팩토링 했습니다.
 const initialState = {
-    posts : {
-        loading : false,
-        data : null,
-        error:null
-    },
-    post : {
-        loading : false,
-        data : null,
-        error : null
-    }
-}
+    posts: reducerUtils.initial(),
+    post: reducerUtils.initial()
+  };
 
 /* thunk를 이용한 액션 함수 */
 
@@ -56,7 +62,7 @@ export const getPost = (id) => async dispatch => {
 
 //action function ReFactoring [make thunk function ]
 export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts)
-export const getPost = createPromiseThunk(GET_POSTS, postsAPI.getPostsById)
+export const getPost = createPromiseThunk(GET_POST, postsAPI.getPostById)
 
 
 //Reducer
