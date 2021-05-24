@@ -13,3 +13,11 @@ https://react.vlpt.us/redux-middleware
    redux-thuck 사용
 
    redux-thunk + promise
+
+   reload
+      data 있을때는 데이터 호출 안함
+           로딩 스태이츠 안보임
+
+      post conponents
+          리덕스 모듈에 clear_post
+          
