@@ -53,3 +53,11 @@ https://react.vlpt.us/redux-middleware
     }
 
    reducer action state 에 meta 데이터 관리, 렌더링 시 사용 
+
+thunk_history
+   thunk 함수에서 사용 할 수 있도록 customrouter를 전달해 주는데
+   기존 BrowserRouter를 변경하는 과정에서
+   CreateBrowerRouter를 생성하는 history import가 오류로 인해 진행 불가
+
+   그래서 container components에서 link tag로 화면 이동 처리함
+     link button

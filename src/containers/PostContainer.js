@@ -4,6 +4,8 @@ import { getPost } from '../modules/posts';
 import Post from '../components/Post';
 import { reducerUtils } from '../lib/asyncUtils';
 
+import {Link, Button} from 'react-router-dom'
+
 function PostContainer({postId}) {
     const { data, loading, error } = useSelector(
         state => state.posts.post[postId] || reducerUtils.initial()
@@ -26,7 +28,12 @@ function PostContainer({postId}) {
     if (error) return <div>에러 발생!</div>;
     if (!data) return null;
   
-    return <Post post={data} />;
+    return (
+        <>
+        <Link to='/'><button>이동하기</button></Link>
+        <Post post={data} />
+        </>
+    );
 }
 
 export default PostContainer;
