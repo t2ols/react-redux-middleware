@@ -4,7 +4,7 @@ import { getPost } from '../modules/posts';
 import Post from '../components/Post';
 import { reducerUtils } from '../lib/asyncUtils';
 
-import {Link, Button} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 function PostContainer({postId}) {
     const { data, loading, error } = useSelector(

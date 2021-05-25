@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
-import rootReducer from './modules';
+import rootReducer, { rootSaga } from './modules';
 
 import logger from 'redux-logger'
 import ReduxThunk from 'redux-thunk'
@@ -14,10 +14,16 @@ import { composeWithDevTools } from 'redux-devtools-extension'; //chrom app stro
 
 import { BrowserRouter } from 'react-router-dom';
 
+import createSagaMiddleware from 'redux-saga';
+
+const sagaMiddleware = createSagaMiddleware(); // 사가 미들웨어를 만듭니다.
+
 const store = createStore(rootReducer,
-  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+  composeWithDevTools(applyMiddleware(ReduxThunk, sagaMiddleware, logger))
 );
 
+
+sagaMiddleware.run(rootSaga); // 루트 사가를 실행해줍니다.
 
 ReactDOM.render(
   <BrowserRouter>

@@ -61,3 +61,58 @@ thunk_history
 
    그래서 container components에서 link tag로 화면 이동 처리함
      link button
+
+redux-saga {redux-saga/effects}
+   액션을 모니터링
+
+   비동기 작업을 진행 할때 기존 요청 요청 및 취소 가능
+   Generator
+      함수의 흐름을 특정 구간에 멈춰 놓았다가 다시 실행 할 수 있다.
+
+      function*
+      yield
+      return
+
+      -------------------
+      function* generatorFuntion(){
+         yield 1;
+         yield 2;
+         return 3;
+      }
+
+      const generator = generatorFuntion();
+      generator.next()  -> {value : undefine, done : false}  //시작
+      generator.next()  -> {value : 1, done : false}
+
+      generator.next()  -> {value : 2, done : false}
+
+      generator.next()  -> {value : 3, done : true}
+
+      generator.next()  -> {value : undefined, done : true}
+
+      function () {
+         let a = yield;  <- next() 파라미터 값>
+         .
+         .
+      }
+
+      function* addGenerator(){
+         let result = 0;
+         while(true) {
+             result = yield result     
+         }
+      }
+
+
+   saga : generator에 기반한 액션의 관리 (Counter)
+
+   reducer 추가 async
+     module rootSaga  tield all ([counterSaga])
+
+   App index.js  sagaMiddleware 등록
+
+
+
+
+
+     
