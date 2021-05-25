@@ -113,6 +113,10 @@ redux-saga {redux-saga/effects}
     sagaMiddleware.run(rootSaga)
 
 
+   saga - promise
+      yield call()
+      yield put
+
 
 
      
