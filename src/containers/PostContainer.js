@@ -4,19 +4,12 @@ import { getPost, clearPost } from '../modules/posts'; //redux thunk
 import Post from '../components/Post';
 
 function PostContainer({postId}) {
-    const { data, loading, error } = useSelector(
-        state => state.posts.posts[postId]
-        ) || {
-            loading : false,
-            data : null,
-            error:null
-        };
-    const dispatch = useDispatch();
+    const { data, loading, error } = useSelector(state => state.posts.post);    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPost(postId));
 
-        //unmount 할때 호출 됨
+        //unmount 할때 호출 됨 postId 변경되기 전
         return () => {
             dispatch(clearPost());
         }

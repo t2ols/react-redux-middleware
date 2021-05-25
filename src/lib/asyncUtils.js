@@ -1,8 +1,6 @@
 //Promise에 기반한 Thunk를 만들어주는 함수입니다.
 export const createPromiseThunk = (type, promiseCreator) => {
 
-    console.log(`call thunk ${type}`)
-
     const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
 
     return param => async dispatch => {
@@ -20,14 +18,15 @@ export const createPromiseThunk = (type, promiseCreator) => {
 
 //리듀서에서 사용 할 수 있는 여러 유틸 함수들입니다.[refactoring]
 export const reducerUtils = {
-    //초기 상태. 토기 data 값은 기본적으로 null이지만
+    //초기 상태. 초기 data 값은 기본적으로 null이지만
     //바꿀 수도 있습니다.
     initial : (initialdata = null) => ({
         loading : false,
         data : initialdata,
         error:null
     }),
-    loading : (prevState  = null ) => ({
+    //이전 상태 값이 없으면 null
+    loading : (prevState = null ) => ({
         loading : true,
         data : prevState,
         error: null
@@ -52,6 +51,7 @@ export const handleAsyncActions = (type, key, keepData = false ) => {
     return (state, action) => {
         switch (action.type) {
             case type :
+                
                 return {
                     ...state,
                     [key]:reducerUtils.loading(keepData ? state[key].data : null)
