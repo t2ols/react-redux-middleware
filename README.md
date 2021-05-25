@@ -110,7 +110,7 @@ redux-saga {redux-saga/effects}
      module rootSaga  tield all ([counterSaga])
 
    App index.js  sagaMiddleware 등록
-
+    sagaMiddleware.run(rootSaga)
 
 
 
