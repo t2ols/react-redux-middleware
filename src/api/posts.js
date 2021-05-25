@@ -22,6 +22,7 @@ const posts = [
 ];
 
 export const getPosts = async () => {
+    console.log('getPosts')
     await sleep(500);
     return posts;
 }

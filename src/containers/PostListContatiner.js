@@ -11,7 +11,7 @@ function PostListcontainer(){
     useEffect(() => {
         dispatch(getPosts());
     }, [dispatch]);
-
+    
     if (loading && !data) return <div> 로딩중...(데이터가 없을때만 표시)</div>;
     if (error) return <div>에러 발생!!</div>;
     if (!data) return null;

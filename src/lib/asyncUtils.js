@@ -5,10 +5,10 @@ export const createPromiseThunk = (type, promiseCreator) => {
 
     return param => async dispatch => {
         //요청 시작
-        dispatch({type, param});
+        dispatch({type});
         try {
             //결과물의 이름을 payload라는 이름으로 통일 시킵니다.
-            const payload = await promiseCreator(param);
+            const payload = await promiseCreator();
             dispatch({type : SUCCESS, payload}); //성공
         } catch (e) {
             dispatch({ type : ERROR, payload : e, error : true}); //실패
@@ -16,7 +16,30 @@ export const createPromiseThunk = (type, promiseCreator) => {
     }
 }
 
+//이후 확장을 위한 임시 함수
+const defaultIdSelector = param => param;
+
+//meta data를 관리하는 thunk 함수
+export const createPromiseThunkById = (type, promiseCreator, idSelector = defaultIdSelector) => {
+
+    const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+    return param => async dispatch => {
+        //요청 시작
+        dispatch({type, param});
+
+        try {
+            //결과물의 이름을 payload라는 이름으로 통일 시킵니다.
+            const payload = await promiseCreator(param);
+            dispatch({type : SUCCESS, payload, meta : idSelector(param)}); //성공
+        } catch (e) {
+            dispatch({ type : ERROR, payload : e, error : true, meda : idSelector(param) }); //실패
+        }
+    }
+}
+
 //리듀서에서 사용 할 수 있는 여러 유틸 함수들입니다.[refactoring]
+//state
 export const reducerUtils = {
     //초기 상태. 초기 data 값은 기본적으로 null이지만
     //바꿀 수도 있습니다.
@@ -50,8 +73,7 @@ export const handleAsyncActions = (type, key, keepData = false ) => {
 
     return (state, action) => {
         switch (action.type) {
-            case type :
-                
+            case type :                
                 return {
                     ...state,
                     [key]:reducerUtils.loading(keepData ? state[key].data : null)
@@ -67,6 +89,44 @@ export const handleAsyncActions = (type, key, keepData = false ) => {
                     [key]:reducerUtils.error(action.payload)
                 }
             default : return state;
+        }
+    }
+}
+
+export const handleAsyncActionsById = (type, key, keepData = false ) =>
+{
+    const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+    return (state, action)  => {
+        
+        const id = action.meta;
+
+        switch (action.type)  {
+            case  type  :
+                return {
+                    ...state,
+                    [key] : {
+                        ...state.post,
+                        [id]: reducerUtils.loading(keepData ? state[key][id] && state[key][id].data : null)
+                    }
+                }
+            case  SUCCESS  :
+                return {
+                    ...state,
+                    [key] : {
+                        ...state.post,
+                        [id]: reducerUtils.success(action.payload)
+                    }
+                }
+            case  ERROR  :
+                return {
+                    ...state,
+                    [key] : {
+                        ...state.post,
+                        [id]: reducerUtils.error(state[key] && state[key][id].data)
+                    }
+                }        
+            default : return state
         }
     }
 }
